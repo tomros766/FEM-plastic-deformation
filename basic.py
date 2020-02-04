@@ -1,7 +1,9 @@
+import math
+
 import numpy
 import scipy.integrate as scipy
 
-N = int(input("dawaj dokladnosc przedzialu kjurwa"))
+N = int(input("podaj ilosc przedzialow"))
 u_2 = 0
 domain = [0, 2]
 
@@ -88,14 +90,39 @@ def integrate(f):
 #     #         return -N * N * (3 * (1 - xl) + 5 * (xr - 1))
 #      return scipy.quad(lambda x: E(x)*diffe(x, i)*diffe(x, j), 0, 2)[0]
 
+def eIntersection(i, j):
+    if i == j and i != 0:
+        return [getX(i - 1), getX(i + 1)]
+    lesser = min(i, j)
+    return [getX(lesser), getX(lesser + 1)]
 
+def includeK(f, beg, end):
+    if beg <= 1 and end <= 1:
+        return 3 * integrateGaus(f, beg, end)
+    if beg > 1 and end > 1:
+        return 5 * integrateGaus(f, beg, end)
+    else:
+        return 3 * integrateGaus(f, beg, 1) + 5 * integrateGaus(f, 1, end)
+
+
+def integrateGaus(f, beg, end):
+    xiPoints = [-1 / math.sqrt(3), 1 / math.sqrt(3)]
+    sum = 0
+    differenceByTwo = (end - beg) / 2
+    sumByTwo = (end + beg) / 2
+    for elem in xiPoints:
+        sum += f(differenceByTwo * elem + sumByTwo)
+
+    return differenceByTwo * sum
 
 def BLinear(i, j):
     constant = 0
     if i == j and i == 0:
-        constant = 1
-    return constant + integrate(
-        lambda x: diffe(x, i) * diffe(x, j))
+        constant = -3
+    range = eIntersection(i, j)
+    f = lambda x: diffe(x, i) * diffe(x, j)
+
+    return constant + includeK(f, range[0], range[1])
 
 
 def solve():
