@@ -8,15 +8,6 @@ u_2 = 0
 domain = [0, 2]
 
 
-def E(x):
-    if x <= 1 and x >= 0:
-        return 3
-    elif x > 1 and x <= 2:
-        return 5
-    else:
-        return 0
-
-
 def solveEquationsMatrixes(B, L):
     print(numpy.array(B))
     print(numpy.array(L))
@@ -42,10 +33,6 @@ def e(x, i):
             return N/2 * (getX(i+1) - x)
 
 
-def eFun(i):
-    return lambda x: e(x, i)
-
-
 def diffe(x, i):
     if i > 0:
         if x <= getX(i-1) or x >= getX(i+1):
@@ -60,35 +47,6 @@ def diffe(x, i):
         else:
             return -N/2
 
-def diffeFun(i):
-    return lambda x: diffe(x, i)
-
-def integrate(f):
-    return 3*scipy.quad(f,0,1)[0] + 5*scipy.quad(f,1,2)[0]
-
-
-# def integral(i, j):
-#     # if abs(i - j) > 1:
-#     #     return 0
-#     # elif i != j:
-#     #     xl = getX(min(i, j))
-#     #     xr = xl + 2/N
-#     #     if xl > 1:
-#     #         return -N*N*5 * (xr - xl)
-#     #     elif xr < 1:
-#     #         return -N*N*3 * (xr - xl)
-#     #     else:
-#     #         return -N*N*(3 * (1 - xl) + 5 * (xr - 1))
-#     # else:
-#     #     xl = getX(i)
-#     #     xr = xl + 2/N
-#     #     if xl > 1:
-#     #         return -N * N * 5 * (xr - xl)
-#     #     elif xr < 1:
-#     #         return -N * N * 3 * (xr - xl)
-#     #     else:
-#     #         return -N * N * (3 * (1 - xl) + 5 * (xr - 1))
-#      return scipy.quad(lambda x: E(x)*diffe(x, i)*diffe(x, j), 0, 2)[0]
 
 def eIntersection(i, j):
     if i == j and i != 0:
